@@ -1,0 +1,53 @@
+/* LFE topic structure, shared by every page.
+   Bar 1 (.site-bar): the site and its topics. Bar 2 (.topic-bar, sticky): this topic's parts.
+   Each page's stylesheet sets --page-w to its own content width so the bars line up.
+   House tokens only. Load after lfe.css. */
+:root { --site-w: min(1320px, calc(100% - 96px)); --page-w: var(--site-w); }
+.bar-inner { width: var(--page-w); margin-inline: auto; display: flex; align-items: center; }
+
+.site-bar { border-bottom: 1px solid var(--hairline); }
+.site-bar .bar-inner { gap: 26px; padding: 14px 0; }
+.site-bar .wordmark { font-size: 18px; font-weight: 600; letter-spacing: 0; text-decoration: none; color: var(--ink); }
+.site-bar nav { display: flex; gap: 22px; margin-left: auto; font-size: 16px; }
+.site-bar nav a { text-decoration: none; color: var(--muted); padding-block: 6px; transition: color 200ms ease; }
+.site-bar nav a:hover, .site-bar nav a:focus-visible { color: var(--accent); }
+.site-bar nav a[aria-current] { color: var(--ink); text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 7px; text-decoration-thickness: 1.5px; }
+.site-bar .theme-toggle { color: var(--muted); min-height: 32px; }
+
+/* Theme toggle: an icon, with its name shown on hover or keyboard focus. */
+.site-bar .icon-toggle { position: relative; display: inline-grid; place-items: center; width: 36px; height: 36px; min-width: 0; min-height: 0; padding: 0; border: 1px solid var(--hairline); border-radius: 50%; letter-spacing: 0; text-transform: none; font-size: 17px; line-height: 1; color: var(--ink); background: none; cursor: pointer; transition: border-color 200ms ease, color 200ms ease; }
+.site-bar .icon-toggle:hover, .site-bar .icon-toggle:focus-visible { border-color: var(--accent); color: var(--accent); }
+.icon-toggle .tip { position: absolute; top: calc(100% + 8px); right: 0; padding: 5px 10px; white-space: nowrap; font-size: 14px; letter-spacing: 0; text-transform: none; color: var(--paper); background: var(--ink); opacity: 0; transform: translateY(-3px); pointer-events: none; transition: opacity 150ms ease, transform 150ms ease; z-index: 20; }
+.icon-toggle:hover .tip, .icon-toggle:focus-visible .tip { opacity: 1; transform: none; }
+
+/* View switch (cards or map / list), shared by the homepage and the ten-ideas pages. */
+.view-toggle { display: inline-flex; border: 1px solid var(--hairline); }
+.view-toggle[hidden] { display: none; }
+.view-toggle button { display: grid; place-items: center; width: 40px; height: 36px; padding: 0; border: 0; background: none; color: var(--muted); cursor: pointer; }
+.view-toggle button + button { border-left: 1px solid var(--hairline); }
+.view-toggle button svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.6; }
+.view-toggle button:hover, .view-toggle button:focus-visible { color: var(--accent); }
+.view-toggle button[aria-pressed="true"] { color: var(--accent); background: var(--panel); }
+
+.topic-bar { position: sticky; top: 0; z-index: 10; background: var(--paper); border-bottom: 1px solid var(--hairline); }
+.topic-bar .bar-inner { gap: 22px; padding: 10px 0; align-items: baseline; }
+.topic-bar .topic-name { font-weight: 600; font-size: 17px; color: var(--ink); text-decoration: none; margin-right: 6px; }
+.topic-bar nav { display: flex; gap: 20px; font-size: 16px; }
+.topic-bar nav a { text-decoration: none; color: var(--muted); padding-block: 4px; }
+.topic-bar nav a:hover { color: var(--accent); }
+.topic-bar nav a[aria-current] { color: var(--ink); text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 7px; text-decoration-thickness: 1.5px; }
+
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+
+@media (max-width: 760px) {
+  :root { --site-w: calc(100% - 36px); --page-w: var(--site-w); }
+  .site-bar .bar-inner { flex-wrap: wrap; gap: 4px 16px; padding-block: 10px; }
+  .site-bar .wordmark { flex: 1; font-size: 17px; }
+  .site-bar nav { order: 3; width: 100%; margin-left: 0; gap: 20px; font-size: 15px; }
+  .topic-bar .bar-inner { gap: 14px; flex-wrap: wrap; }
+  .topic-bar .topic-name { font-size: 16px; }
+  .topic-bar nav { gap: 16px; font-size: 15px; }
+}
+
+@media print { [data-reveal], .ideas-list > li { opacity: 1 !important; transform: none !important; } .topic-bar { position: static; } }

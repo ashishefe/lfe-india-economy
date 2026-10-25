@@ -1,0 +1,107 @@
+/* LFE India economy dashboard. House tokens only (lfe.css); load after lfe-topics.css. */
+body { font-size: 18px; line-height: 1.6; }
+.shell { width: var(--site-w); margin-inline: auto; }
+.skip { position: absolute; left: 12px; top: -80px; padding: 12px; background: var(--paper); z-index: 100; }
+.skip:focus { top: 12px; }
+.visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+.mast { padding: 30px 0 26px; }
+h1 { font-size: clamp(37px, 5.3vw, 62px); max-width: none; line-height: 1.07; letter-spacing: -.025em; }
+.intro { font-size: clamp(19px, 2.1vw, 23px); line-height: 1.45; margin: 13px 0 0; color: var(--muted); }
+
+/* Key numbers: the page's one panel. Hairlines between items, no boxes. */
+.keys { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0; margin: 0; padding: 0; }
+.key { padding: 18px 22px 20px; border-left: 1px solid var(--hairline); }
+.key:nth-child(4n + 1) { border-left: 0; }
+.key:nth-child(n + 5) { border-top: 1px solid var(--hairline); }
+.key dt { font-size: 16px; color: var(--muted); }
+.key dd { margin: 0; }
+.key-value { font-size: 34px; font-weight: 600; line-height: 1.2; margin-top: 4px !important; font-variant-numeric: tabular-nums; }
+.key-compare { font-size: 16px; color: var(--ink); }
+.key-date { font-size: 14px; color: var(--faint); margin-top: 2px !important; }
+.stale, .stale-note { color: var(--accent); }
+.stale-note { font-size: 15px; margin: 10px 0 0; }
+
+/* One question: text on the left at a readable measure, charts on the right. */
+.q { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 56px; padding: 44px 0 40px; border-top: 1px solid var(--hairline); margin-top: 40px; }
+.q + .q { margin-top: 0; }
+.q h2 { font-size: 28px; max-width: none; line-height: 1.25; margin: 0 0 14px; }
+.q-num { color: var(--accent); font-variant-numeric: tabular-nums; margin-right: 6px; }
+.q-text p { max-width: 62ch; margin: 0 0 14px; }
+.q-text strong { font-weight: 600; }
+.q-text .note { color: var(--muted); font-size: 16px; }
+
+.chart { margin: 0 0 30px; }
+.chart:last-child { margin-bottom: 0; }
+.chart-title { margin: 0 0 6px; font-size: 17px; font-weight: 600; }
+.chart svg { display: block; width: 100%; height: auto; overflow: visible; }
+.chart .chart-narrow { display: none; }
+.chart .bar { fill: var(--accent); opacity: .85; }
+.chart .break-rule { stroke-dasharray: 3 3; }
+.chart figcaption { max-width: 72ch; }
+
+.chart-data { margin-top: 8px; font-size: 15px; color: var(--muted); }
+.chart-data summary { cursor: pointer; color: var(--accent); width: fit-content; padding-block: 4px; }
+.chart-data .num-table { margin-top: 8px; max-height: none; }
+
+.num-table { width: 100%; border-collapse: collapse; margin: 18px 0 0; font-size: 15.5px; font-variant-numeric: tabular-nums; }
+.num-table th, .num-table td { text-align: right; padding: 6px 0 6px 14px; border-bottom: 1px solid var(--hairline); vertical-align: baseline; }
+.num-table th:first-child, .num-table td:first-child { text-align: left; padding-left: 0; }
+.num-table th { font-weight: 600; color: var(--muted); font-size: 14.5px; }
+
+.left-out { margin: 40px 0 0; padding-top: 4px; padding-bottom: 4px; }
+.left-out h2, .sources h2 { font-size: 26px; max-width: none; margin: 0 0 12px; }
+.left-out p { max-width: 78ch; margin: 0 0 12px; color: var(--ink); }
+.left-out p:last-child { margin-bottom: 0; }
+
+.sources { border-top: 1px solid var(--hairline); margin-top: 44px; padding-top: 32px; }
+.sources > p { max-width: 78ch; color: var(--muted); margin: 0; }
+.src-table td { text-align: left !important; }
+.src-table a { color: var(--accent); text-underline-offset: 3px; }
+
+.sketch-footer { border-top: 1px solid var(--hairline); margin-top: 40px; padding-block: 20px 28px; font-size: 14px; color: var(--muted); }
+.sketch-footer > div { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px 24px; }
+.sketch-footer nav { display: flex; flex-wrap: wrap; gap: 8px 20px; }
+.sketch-footer a { text-underline-offset: 3px; padding-block: 5px; }
+.sketch-footer p { font-size: 12px; margin: 10px 0 0; }
+
+@media (max-width: 1100px) {
+  .keys { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .key:nth-child(n) { border-left: 1px solid var(--hairline); border-top: 0; }
+  .key:nth-child(2n + 1) { border-left: 0; }
+  .key:nth-child(n + 3) { border-top: 1px solid var(--hairline); }
+}
+@media (max-width: 960px) {
+  .q { grid-template-columns: minmax(0, 1fr); gap: 28px; }
+}
+@media (max-width: 640px) {
+  body { font-size: 17px; }
+  .mast { padding-block: 22px 20px; }
+  h1 { font-size: clamp(33px, 8.8vw, 46px); }
+  .intro { font-size: 18px; }
+  .key { padding: 14px 12px 16px; }
+  .key-value { font-size: 27px; }
+  .key-compare { font-size: 14.5px; }
+  .key-date { font-size: 13px; }
+  .q { padding: 32px 0 30px; margin-top: 28px; }
+  .q h2 { font-size: 24px; }
+  .chart .chart-wide { display: none; }
+  .chart .chart-narrow { display: block; }
+  .num-table { font-size: 14.5px; }
+  .num-table th, .num-table td { padding-left: 10px; }
+  .src-table, .src-table tbody, .src-table tr, .src-table td { display: block; width: 100%; }
+  .src-table thead { display: none; }
+  .src-table td { padding-left: 0 !important; border-bottom: 0; }
+  .src-table tr { border-bottom: 1px solid var(--hairline); padding: 8px 0; }
+}
+
+/* Numbers and dates never break across lines; only the first (label) column wraps. */
+.num-table td + td, .num-table th + th { white-space: nowrap; }
+.q-charts .num-table { margin-top: 26px; }
+.src-table td + td, .src-table th + th { white-space: normal; }
+
+/* Experiments has several parts in its topic bar: keep each link whole on phones. */
+.topic-bar nav { flex-wrap: wrap; row-gap: 2px; }
+.topic-bar nav a { white-space: nowrap; }
+.stale-banner { margin: 14px 0 0; padding: 10px 14px; border-left: 2px solid var(--accent); color: var(--ink); background: var(--panel); max-width: 62ch; }
+.sources a { color: var(--accent); text-underline-offset: 3px; }

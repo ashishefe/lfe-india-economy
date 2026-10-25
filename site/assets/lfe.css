@@ -1,0 +1,372 @@
+/* ==========================================================================
+   LFE — Learn For Everybody · House stylesheet
+   Frozen 2026-07-03 from "Offprint v2", chosen and calibrated by Ashish.
+   Visual reference: offprint-v2.html (do not restyle that file; it is the spec).
+
+   The contract: pages express THE LOOK through these tokens only.
+   To re-theme every LFE page at once, edit the variables — nothing else.
+
+   House rules distilled from the calibration session:
+     1. Serif everywhere — body, UI labels, tabs, even chart ticks.
+     2. One accent: ink-blue. No second colour, ever. Neutrals do the rest.
+     3. Chrome budget: at most TWO boxed/ruled moments per page
+        (e.g. one .panel + one .aside-rule). Everything else is hairlines.
+     4. Restrained display voice: weight 600, tight leading, no shouting.
+     5. Dark mode is warm charcoal — lamplight, not terminal.
+   ========================================================================== */
+
+:root {
+  /* -- paper & ink ------------------------------------------------------ */
+  --paper:    oklch(99.1% 0.004 96);   /* near-white, a whisper of warmth  */
+  --ink:      oklch(24% 0.016 80);     /* warm near-black                  */
+  --muted:    oklch(46% 0.014 80);     /* secondary text                   */
+  --faint:    oklch(58% 0.012 82);     /* captions, ticks, footers         */
+  --hairline: oklch(87.5% 0.009 92);   /* rules; the default "chrome"      */
+
+  /* -- the one accent ---------------------------------------------------- */
+  --accent:      oklch(45% 0.125 257); /* ink-blue: fountain pen, not SaaS */
+  --accent-soft: oklch(45% 0.125 257 / 0.09);
+  --band:        oklch(45% 0.125 257 / 0.06);  /* chart shading, washes    */
+  --panel: color-mix(in oklch, var(--paper), oklch(45% 0.125 257) 4.5%);
+
+  /* -- type -------------------------------------------------------------- */
+  --serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+  /* No sans token. That is deliberate — see house rule 1. */
+
+  /* -- scale ------------------------------------------------------------- */
+  --text: 1.06rem;
+  --leading: 1.72;
+  --display: clamp(2.5rem, 7vw, 3.7rem);
+  --h2: clamp(1.5rem, 4vw, 1.9rem);
+  --h3: 1.32rem;
+  --label: 0.84rem;        /* letterspaced caps labels                     */
+  --caption: 0.86rem;
+  --measure: 62ch;
+  --page-max: 720px;       /* single-column reading measure                */
+}
+
+:root[data-theme="dark"] {
+  --paper:    oklch(22.5% 0.012 80);   /* warm charcoal, not blue-black    */
+  --ink:      oklch(90% 0.013 90);
+  --muted:    oklch(70% 0.013 88);
+  --faint:    oklch(58% 0.012 85);
+  --hairline: oklch(35% 0.013 82);
+  --accent:      oklch(73% 0.08 252);  /* same blue, lifted for dark paper */
+  --accent-soft: oklch(73% 0.08 252 / 0.13);
+  --band:        oklch(73% 0.08 252 / 0.07);
+  --panel: color-mix(in oklch, var(--paper), oklch(73% 0.08 252) 6%);
+}
+
+/* ==========================================================================
+   Base
+   ========================================================================== */
+
+* { box-sizing: border-box; }
+
+html { color-scheme: light; }
+html[data-theme="dark"] { color-scheme: dark; }
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--serif);
+  font-size: var(--text);
+  line-height: var(--leading);
+  transition: background 300ms ease, color 300ms ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body { transition: none; }
+}
+
+a { color: inherit; }
+
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+.page {
+  max-width: var(--page-max);
+  margin-inline: auto;
+  padding: 0 24px 6rem;
+}
+
+h1 {
+  margin: 0;
+  font-size: var(--display);
+  font-weight: 600;
+  line-height: 1.06;
+  letter-spacing: -0.01em;
+  max-width: 14ch;
+}
+
+h2 {
+  margin: 0 0 1.4rem;
+  font-size: var(--h2);
+  font-weight: 600;
+  line-height: 1.22;
+  max-width: 24ch;
+}
+
+h3 {
+  margin: 0.6rem 0 0.8rem;
+  font-size: var(--h3);
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+/* ==========================================================================
+   Recurring parts (each maps 1:1 to a block in offprint-v2.html)
+   ========================================================================== */
+
+/* -- identity strip ------------------------------------------------------ */
+.lfe-strip {
+  padding: 1.1rem 0 0.85rem;
+  border-bottom: 1px solid var(--hairline);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+  display: flex;
+  align-items: baseline;
+  gap: 1.2rem;
+}
+.lfe-strip .domain {
+  margin-left: auto;
+  letter-spacing: 0.08em;
+  color: var(--faint);
+  font-weight: 400;
+}
+
+.lfe-strip a {
+  color: inherit;
+  text-decoration: none;
+}
+.lfe-strip a:hover { color: var(--accent); }
+
+.theme-toggle {
+  font: inherit;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  background: none;
+  border: none;
+  border-bottom: 1px solid var(--hairline);
+  color: var(--faint);
+  padding: 0 0 2px;
+  cursor: pointer;
+}
+.theme-toggle:hover { color: var(--accent); border-bottom-color: var(--accent); }
+
+/* -- house header, bar 2: sticky section nav with scroll-spy --------------
+   The house header is TWO bars: the .lfe-strip above (identity: wordmark →
+   LFE home, link out to econforeverybody.com, theme toggle) scrolls away;
+   this nav sticks and shows where you are. Markup:
+     <nav class="lfe-nav"><div class="lfe-nav-row"> …hash links… </div></nav>
+   (put the row inside the page's own width container on wide layouts).
+   lfe-theme.js marks the section in view with .is-current — darker, bolder.
+   Tabbed pieces (e.g. macro/india-growth) use their tabbar as bar 2 instead. */
+.lfe-nav {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  background: var(--paper);
+  border-bottom: 1px solid var(--hairline);
+}
+.lfe-nav-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 1.3rem;
+  padding: 0.72rem 0;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+.lfe-nav a {
+  color: var(--faint);
+  text-decoration: none;
+  padding-bottom: 2px;
+}
+.lfe-nav a:hover { color: var(--ink); }
+.lfe-nav a.is-current {
+  color: var(--ink);
+  font-weight: 700;
+  box-shadow: inset 0 -2px 0 var(--accent);
+}
+
+/* keep anchored sections clear of the sticky nav */
+html { scroll-padding-top: 3.6rem; }
+
+/* -- masthead ------------------------------------------------------------ */
+.masthead { padding: 4.5rem 0 0; }
+
+.eyebrow,
+.kicker {
+  margin: 0 0 1.1rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.17em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.eyebrow { margin-bottom: 1.4rem; }
+
+.dek {
+  margin: 1.6rem 0 0;
+  max-width: 52ch;
+  font-size: 1.22rem;
+  line-height: 1.55;
+  color: var(--muted);
+  font-style: italic;
+}
+
+.keyline {
+  margin: 2.6rem 0 0;
+  padding-top: 1rem;
+  border-top: 1px solid var(--hairline);
+  font-size: 0.92rem;
+  letter-spacing: 0.02em;
+  color: var(--muted);
+}
+.keyline strong {
+  font-size: 1.32rem;
+  font-weight: 600;
+  color: var(--ink);
+  padding: 0 0.15rem;
+}
+
+/* -- tabs ---------------------------------------------------------------- */
+.tabs {
+  margin-top: 3.2rem;
+  border-top: 1px solid var(--hairline);
+  border-bottom: 1px solid var(--hairline);
+  padding: 0.8rem 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.7rem;
+  font-size: var(--label);
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+.tabs a { text-decoration: none; color: var(--faint); padding-bottom: 3px; }
+.tabs a:hover { color: var(--ink); }
+.tabs a.active { color: var(--ink); border-bottom: 2px solid var(--accent); }
+.tabs .math-link { margin-left: auto; color: var(--accent); }
+
+/* -- chapters ------------------------------------------------------------ */
+.chapter { padding-top: 4rem; }
+.chapter p:not(.kicker) { max-width: var(--measure); margin: 1.1rem 0 0; }
+
+/* -- chart (SVG styled via tokens so dark mode flips it) ------------------ */
+.chart { margin: 3.4rem 0 0; }
+.chart svg { display: block; width: 100%; height: auto; }
+
+.grid-line       { stroke: var(--hairline); stroke-width: 1; }
+.axis-line       { stroke: var(--faint); stroke-width: 1; }
+.line-primary    { stroke: var(--accent); stroke-width: 1.9; fill: none; }
+.line-reference  { stroke: var(--muted); stroke-width: 1.4; stroke-dasharray: 6 5; fill: none; }
+.clock-band      { fill: var(--band); }
+.marker-rule     { stroke: var(--accent); stroke-width: 1; stroke-dasharray: 2 4; }
+.marker-dot      { fill: var(--accent); stroke: var(--paper); stroke-width: 2.5; }
+.tick-label      { fill: var(--faint); font-family: var(--serif); font-size: 12px; }
+.chart-annot     { fill: var(--ink); font-family: var(--serif); font-size: 14.5px; font-style: italic; }
+.chart-annot-sub { fill: var(--faint); font-family: var(--serif); font-size: 11.5px; font-style: italic; }
+.legend-label    { fill: var(--muted); font-family: var(--serif); font-size: 12px; }
+
+figcaption {
+  margin-top: 0.9rem;
+  font-size: var(--caption);
+  font-style: italic;
+  line-height: 1.6;
+  color: var(--faint);
+  max-width: 60ch;
+}
+
+/* -- controls ------------------------------------------------------------ */
+.controls {
+  margin-top: 3.2rem;
+  border-top: 1px solid var(--hairline);
+  padding-top: 1.8rem;
+  display: grid;
+  gap: 1.35rem;
+  max-width: 30rem;
+}
+.control {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: baseline;
+  gap: 0.3rem 1rem;
+}
+.control span {
+  font-size: var(--label);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.control output { font-size: 1.14rem; font-weight: 600; font-variant-numeric: tabular-nums; }
+.control input[type="range"] {
+  grid-column: 1 / -1;
+  width: 100%;
+  height: 18px;
+  accent-color: var(--accent);
+}
+
+/* -- the chrome budget: two deliberate moments --------------------------- */
+/* Moment 1: a tinted panel. Use once per page (math, key result, aside). */
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--hairline);
+  padding: 1.8rem 1.9rem 2rem;
+}
+
+/* Moment 2: a quiet left rule. Use once per page (question, pull-aside). */
+.aside-rule {
+  border-left: 2px solid var(--accent);
+  padding-left: 1.4rem;
+}
+.aside-rule p { margin: 0; color: var(--muted); }
+
+/* -- formula ------------------------------------------------------------- */
+.formula {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  font-size: 1.3rem;
+  font-weight: 500;
+  flex-wrap: wrap;
+}
+.fraction { display: inline-grid; text-align: center; gap: 0.2rem; }
+.fraction .num { border-bottom: 1px solid var(--ink); padding-bottom: 0.22rem; }
+sub { font-size: 0.62em; }
+
+.defs { margin: 1.9rem 0 0; display: grid; gap: 0.7rem; }
+.defs div { display: grid; grid-template-columns: 5.5rem 1fr; gap: 1rem; align-items: baseline; }
+.defs dt { font-weight: 600; font-size: 1.05rem; }
+.defs dd { margin: 0; color: var(--muted); font-size: 0.98rem; }
+
+/* -- footer --------------------------------------------------------------- */
+.lfe-footer {
+  margin-top: 5.5rem;
+  border-top: 1px solid var(--hairline);
+  padding-top: 1.2rem;
+  font-size: var(--label);
+  letter-spacing: 0.04em;
+  color: var(--faint);
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.lfe-footer .ethos { font-style: italic; font-size: 0.95rem; }
+
+/* -- small screens -------------------------------------------------------- */
+@media (max-width: 560px) {
+  .tabs { gap: 1rem; }
+  .tabs .math-link { margin-left: 0; }
+  .defs div { grid-template-columns: 4rem 1fr; }
+  .lfe-strip { flex-wrap: wrap; gap: 0.6rem; }
+  .lfe-strip .domain { margin-left: 0; }
+}
