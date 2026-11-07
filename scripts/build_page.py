@@ -582,7 +582,7 @@ def build(data: dict) -> str:
 
     <section class="sources" aria-labelledby="sources">
       <h2 id="sources">Where the numbers come from</h2>
-      <p>A script fetches every number on this page from the sources below and rebuilds the page each day. Every changing number comes from these sources; a few fixed facts, such as the food weight in the price index, were checked by hand on 25 October 2026. If a source fails, the page keeps its last good figure and says so. The code is open, under the MIT licence: <a href="https://github.com/ashishefe/lfe-india-economy">github.com/ashishefe/lfe-india-economy</a>.</p>
+      <p>A script fetches every number on this page from the sources below and rebuilds the page each week. Every changing number comes from these sources; a few fixed facts, such as the food weight in the price index, were checked by hand on 25 October 2026. If a source fails, the page keeps its last good figure and says so. The code is open, under the MIT licence: <a href="https://github.com/ashishefe/lfe-india-economy">github.com/ashishefe/lfe-india-economy</a>.</p>
       <table class="num-table src-table"><thead><tr><th scope="col">Source</th><th scope="col">What we take</th><th scope="col">Latest data</th></tr></thead><tbody>{src_html}</tbody></table>
     </section>
   </main>
@@ -592,13 +592,13 @@ def build(data: dict) -> str:
     <p>Data fetched {esc(data["generated_at"].replace("T", " ").replace("+00:00", " UTC"))}.</p>
   </footer>
   <script>
-    // If the daily refresh stops, say so: compare the fetch time with the reader's clock.
+    // If the weekly refresh stops, say so: compare the fetch time with the reader's clock.
     (function () {{
       var fetched = new Date("{data["generated_at"]}");
       var days = (Date.now() - fetched.getTime()) / 86400000;
-      if (days > 3) {{
+      if (days > 9) {{
         var b = document.getElementById("staleBanner");
-        b.textContent = "These numbers were last fetched " + Math.floor(days) + " days ago. The daily update may have stopped.";
+        b.textContent = "These numbers were last fetched " + Math.floor(days) + " days ago. The weekly update may have stopped.";
         b.hidden = false;
       }}
     }})();
