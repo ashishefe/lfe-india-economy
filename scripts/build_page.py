@@ -516,7 +516,7 @@ def build(data: dict) -> str:
     <nav aria-label="Topics"><a href="../../econofai/index.html">Economics of AI</a><a href="../../power/index.html">Power</a><a href="../../minds/index.html">Minds</a></nav>
     <button class="theme-toggle icon-toggle" id="themeToggle" type="button" aria-label="Dark mode"><span aria-hidden="true">◐</span><span class="tip" id="themeLabel" aria-hidden="true">Dark mode</span></button>
   </div></header>
-  <div class="topic-bar"><div class="bar-inner"><a class="topic-name" href="../index.html">Experiments</a><nav aria-label="Experiments"><a href="../index.html">All experiments</a><a href="index.html" aria-current="page">India economy</a><a href="../india-development/index.html">India development</a><a href="../run-with-it/index.html">Run with it</a></nav></div></div>
+  <div class="topic-bar"><div class="bar-inner"><a class="topic-name" href="../index.html">Experiments</a><nav aria-label="Experiments"><a href="../index.html">All experiments</a><a href="index.html" aria-current="page">India economy</a><a href="../india-development/index.html">India development</a><a href="../research-machine/index.html">Research machine</a><a href="../run-with-it/index.html">Run with it</a></nav></div></div>
 
   <header class="shell mast">
     <h1>How is India’s economy doing?</h1>
